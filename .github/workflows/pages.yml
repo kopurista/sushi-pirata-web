@@ -1,0 +1,52 @@
+name: Publicar en GitHub Pages
+
+# Sube el contenido del repositorio tal cual, sin pasar por Jekyll.
+#
+# No quitar este archivo: sin él los push llegan al repositorio pero NADIE
+# publica, y el sitio se queda sirviendo la versión anterior sin dar ningún
+# error. (Pasó: el script de publicación vaciaba la carpeta y se llevaba
+# `.github` por delante.)
+#
+# Aviso por si alguna vez se agotan los 10 minutos del paso de despliegue: el
+# `timeout` de deploy-pages NO se puede subir, el máximo son esos 600000 ms y
+# cualquier valor mayor se recorta en silencio. Si vuelve a colgarse, mirar si
+# el constructor ANTIGUO de Pages (`build_type: legacy`) está desplegando a la
+# vez: los dos se bloquean entre ellos hasta agotar el tiempo. Se arregla
+# dejando `build_type` en `workflow`.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si se publican dos versiones seguidas, que no se pisen entre ellas.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Desplegar
+        id: despliegue
+        uses: actions/deploy-pages@v4
