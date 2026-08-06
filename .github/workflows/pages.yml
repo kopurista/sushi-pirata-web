@@ -40,3 +40,7 @@ jobs:
       - name: Desplegar
         id: despliegue
         uses: actions/deploy-pages@v4
+        with:
+          # Por defecto espera 10 minutos y aborta. El sitio pesa ~114 MB, con
+          # un index.pck de 73 MB, y GitHub tarda bastante más en publicarlo.
+          timeout: 1800000
