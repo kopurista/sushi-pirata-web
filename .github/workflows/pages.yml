@@ -1,0 +1,42 @@
+name: Publicar en GitHub Pages
+
+# El constructor antiguo de Pages (build_type "legacy") fallaba con un escueto
+# "Page build failed" y sin logs. Este flujo sube el contenido tal cual, sin
+# pasar por Jekyll, y deja un registro con el error real si algo va mal.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si se publican dos versiones seguidas, que no se pisen entre ellas.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - name: Descargar el repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Empaquetar el sitio
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Desplegar
+        id: despliegue
+        uses: actions/deploy-pages@v4
