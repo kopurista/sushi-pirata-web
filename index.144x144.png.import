@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://brhed7c3l82d5"
-path="res://.godot/imported/index.144x144.png-e26dee7ca7e95c0fcf6ac3072882abe9.ctex"
+uid="uid://bx3djtg7mhgp1"
+path="res://.godot/imported/index.144x144.png-3caa7df01c91dc2760e4f0d7dd6abcb4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sushiBeta/sushi3d/index.144x144.png"
-dest_files=["res://.godot/imported/index.144x144.png-e26dee7ca7e95c0fcf6ac3072882abe9.ctex"]
+source_file="res://sushiBeta/web/index.144x144.png"
+dest_files=["res://.godot/imported/index.144x144.png-3caa7df01c91dc2760e4f0d7dd6abcb4.ctex"]
 
 [params]
 
